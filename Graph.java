@@ -32,6 +32,24 @@ public class Graph {
             // - Check that the ID is valid (within range) (with error message if not)
             // - Consider the case where the person has no friends (with message if so)
             // - Check Sample Run on Page 5 of the specs for the expected output format
+
+            if(id < 0 || id >= numAccounts) {
+                // Error message for invalid ID
+                System.out.println("Invalid account ID.");
+            } else if (adjacencyList[id].isEmpty()) {
+                // Message for no friends
+                System.out.println("Account has no friends :(");
+            } else {
+                // Display friend list in the expected format
+                System.out.println("Person " + id + " has " + adjacencyList[id].size() + " friends!");
+                
+                System.out.print("List of friends:");
+
+                for (int friend : adjacencyList[id]) {
+                    System.out.print(" " + friend); // Print each friend's ID
+                }
+                System.out.println();
+            }
     }
 
     // [2] Display connection
@@ -41,4 +59,5 @@ public class Graph {
             // - Check in case the user enters the same ID for both start and end (with error message if so)
             // - Check Sample Run on Page 5 of the specs for the expected output format
     }
+
 }
