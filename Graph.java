@@ -56,6 +56,13 @@ public class Graph {
         }
     }
 
+    // Helper method to get unique friends (removes duplicates)
+    private List<Integer> getUniqueFriends(List<Integer> friends) {
+        // Use LinkedHashSet to maintain order while removing duplicates
+        Set<Integer> uniqueSet = new LinkedHashSet<>(friends);
+        return new ArrayList<>(uniqueSet);
+    }
+
     // [1] Display friend list
     public void getFriendList(int id) {
         // Implemntation here...
@@ -70,18 +77,16 @@ public class Graph {
                 // Message for no friends
                 System.out.println("Account has no friends :(");
             } else {
-                // Intelligent sorting based on list size
-                List<Integer> friends = adjacencyList[id];
+                 // Get unique friends first (remove duplicates from the data file)
+                List<Integer> friends = getUniqueFriends(adjacencyList[id]);
                 int k = friends.size();
                 
+                // Sort based on list size
                 if (k <= 10) {
-                    // Bubble sort for very small lists (inefficient but simple)
                     bubbleSort(friends);
                 } else if (k <= 50) {
-                    // Insertion sort for small lists
                     insertionSort(friends);
                 } else {
-                    // Merge sort for larger lists
                     Collections.sort(friends);
                 }
                 
