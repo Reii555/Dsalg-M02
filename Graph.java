@@ -41,12 +41,14 @@ public class Graph {
                 System.out.println("Account has no friends :(");
             } else {
                 // Display friend list in the expected format
+                // Display friend list in sorted order
                 System.out.println("Person " + id + " has " + adjacencyList[id].size() + " friends!");
-                
                 System.out.print("List of friends:");
 
+                Collections.sort(adjacencyList[id]); // Sort in ascending order
+
                 for (int friend : adjacencyList[id]) {
-                    System.out.print(" " + friend); // Print each friend's ID
+                    System.out.print(" " + friend);
                 }
                 System.out.println();
             }
