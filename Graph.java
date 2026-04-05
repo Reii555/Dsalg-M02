@@ -26,6 +26,36 @@ public class Graph {
         adjacencyList[b].add(a); // Add a to b's friend list
     }
 
+    // helper method for bubble sorting
+    private void bubbleSort(List<Integer> list) {
+        int n = list.size();
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (list.get(j) > list.get(j + 1)) {
+                    // Swap list[j] and list[j+1]
+                    int temp = list.get(j);
+                    list.set(j, list.get(j + 1));
+                    list.set(j + 1, temp);
+                }
+            }
+        }
+    }
+
+    // helper method for insertion sorting
+    private void insertionSort(List<Integer> list) {
+        int n = list.size();
+        for (int i = 1; i < n; i++) {
+            int key = list.get(i);
+            int j = i - 1;
+            // Move elements of list[0..i-1], that are greater than key, to one position ahead of their current position
+            while (j >= 0 && list.get(j) > key) {
+                list.set(j + 1, list.get(j));
+                j = j - 1;
+            }
+            list.set(j + 1, key);
+        }
+    }
+
     // [1] Display friend list
     public void getFriendList(int id) {
         // Implemntation here...
@@ -40,14 +70,24 @@ public class Graph {
                 // Message for no friends
                 System.out.println("Account has no friends :(");
             } else {
-                // Display friend list in the expected format
-                // Display friend list in sorted order
-                System.out.println("Person " + id + " has " + adjacencyList[id].size() + " friends!");
+                // Intelligent sorting based on list size
+                List<Integer> friends = adjacencyList[id];
+                int k = friends.size();
+                
+                if (k <= 10) {
+                    // Bubble sort for very small lists (inefficient but simple)
+                    bubbleSort(friends);
+                } else if (k <= 50) {
+                    // Insertion sort for small lists
+                    insertionSort(friends);
+                } else {
+                    // Merge sort for larger lists
+                    Collections.sort(friends);
+                }
+                
+                System.out.println("Person " + id + " has " + k + " friends!");
                 System.out.print("List of friends:");
-
-                Collections.sort(adjacencyList[id]); // Sort in ascending order
-
-                for (int friend : adjacencyList[id]) {
+                for (int friend : friends) {
                     System.out.print(" " + friend);
                 }
                 System.out.println();
