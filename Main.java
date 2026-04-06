@@ -40,15 +40,29 @@ public class Main {
             if (choice == 1) { // Display friend list
                 System.out.println();
                 System.out.print("Enter ID of person: ");
-                int id = Integer.parseInt(sc.nextLine());
-                graph.getFriendList(id);
+                String idInput = sc.nextLine();
+                int id;
+
+                try { // Added input validation
+                    id = Integer.parseInt(idInput);
+                    graph.getFriendList(id);
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid input. Please enter a numeric ID.");
+                }
             } else if (choice == 2) { // Display connection
                 System.out.println();
                 System.out.print("Enter ID of first person: ");
-                int id1 = Integer.parseInt(sc.nextLine());
+                String idInput1 = sc.nextLine();
                 System.out.print("Enter ID of second person: ");
-                int id2 = Integer.parseInt(sc.nextLine());
-                graph.getConnection(id1, id2);
+                String idInput2 = sc.nextLine();
+
+                try { // Added input validation for both IDs
+                    int id1 = Integer.parseInt(idInput1);
+                    int id2 = Integer.parseInt(idInput2);
+                    graph.getConnection(id1, id2);
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid input. Please enter numeric IDs.");
+                }
             } else if (choice == 3) { // Exit the program
                 System.out.println("Exiting program...");
                 running = false; // Exit the loop and end the program

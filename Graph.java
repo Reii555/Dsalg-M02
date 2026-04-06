@@ -65,11 +65,6 @@ public class Graph {
 
     // [1] Display friend list
     public void getFriendList(int id) {
-        // Implemntation here...
-            // - Check that the ID is valid (within range) (with error message if not)
-            // - Consider the case where the person has no friends (with message if so)
-            // - Check Sample Run on Page 5 of the specs for the expected output format
-
             if(id < 0 || id >= numAccounts) {
                 // Error message for invalid ID
                 System.out.println("Invalid account ID.");
@@ -101,86 +96,78 @@ public class Graph {
 
     // [2] Display connection
     public void getConnection(int start, int end) {
-        // Implementation here...
-            // - Check that both IDs are valid (within range) (with error message if not)
-            // - Check in case the user enters the same ID for both start and end (with error message if so)
-            // - Check Sample Run on Page 5 of the specs for the expected output format
         // Check that both IDs are valid (within range)
-    if (start < 0 || start >= numAccounts) {
-        System.out.println("Invalid account ID: " + start);
-        return;
-    }
-    if (end < 0 || end >= numAccounts) {
-        System.out.println("Invalid account ID: " + end);
-        return;
-    }
-    
-    // Check if user entered the same ID for both start and end
-    if (start == end) {
-        System.out.println("Start and end accounts are the same. Please enter two different accounts.");
-        return;
-    }
-    
-    // Perform BFS to find the shortest path from start to end
-    boolean[] visited = new boolean[numAccounts];
-    int[] previous = new int[numAccounts]; // To reconstruct the path
-    
-    // Initialize previous array with -1 (no parent)
-    for (int i = 0; i < numAccounts; i++) {
-        previous[i] = -1;
-    }
-    
-    // BFS using a queue
-    Queue<Integer> queue = new LinkedList<>();
-    
-    // Start BFS from 'start'
-    visited[start] = true;
-    queue.add(start);
-    
-    while (!queue.isEmpty()) {
-        int current = queue.poll();
-        
-        // If we reached the target, stop BFS
-        if (current == end) {
-            break;
+        if (start < 0 || start >= numAccounts) {
+            System.out.println("Invalid account ID: " + start);
+            return;
+        }
+        if (end < 0 || end >= numAccounts) {
+            System.out.println("Invalid account ID: " + end);
+            return;
         }
         
-        // Explore all neighbors
-        for (int neighbor : adjacencyList[current]) {
-            if (!visited[neighbor]) {
-                visited[neighbor] = true;
-                previous[neighbor] = current;
-                queue.add(neighbor);
+        // Check if user entered the same ID for both start and end
+        if (start == end) {
+            System.out.println("Start and end accounts are the same. Please enter two different accounts.");
+            return;
+        }
+        
+        // Perform BFS to find the shortest path from start to end
+        boolean[] visited = new boolean[numAccounts];
+        int[] previous = new int[numAccounts]; // To reconstruct the path
+        
+        // Initialize previous array with -1 (no parent)
+        for (int i = 0; i < numAccounts; i++) {
+            previous[i] = -1;
+        }
+        
+        // BFS using a queue
+        Queue<Integer> queue = new LinkedList<>();
+        
+        // Start BFS from 'start'
+        visited[start] = true;
+        queue.add(start);
+        
+        while (!queue.isEmpty()) {
+            int current = queue.poll();
+            
+            // If we reached the target, stop BFS
+            if (current == end) {
+                break;
+            }
+            
+            // Explore all neighbors
+            for (int neighbor : adjacencyList[current]) {
+                if (!visited[neighbor]) {
+                    visited[neighbor] = true;
+                    previous[neighbor] = current;
+                    queue.add(neighbor);
+                }
             }
         }
-    }
-    
-    // Check if a connection was found
-    if (!visited[end]) {
-        System.out.println("Cannot find a connection between " + start + " and " + end);
-        return;
-    }
-    
-    // Reconstruct the path from start to end
-    ArrayList<Integer> path = new ArrayList<>();
-    int current = end;
-    while (current != -1) {
-        path.add(current);
-        current = previous[current];
-    }
-    
-    // Print the connection path
-    System.out.println("There is a connection from " + start + " to " + end + "!");
-    
-    // Print the path in the correct order (start to end)
-    for (int i = path.size() - 1; i >= 0; i--) {
-        int node = path.get(i);
-        if (i > 0) {
-            System.out.print(node + " is friends with ");
-        } else {
-            System.out.println(node);
+        
+        // Check if a connection was found
+        if (!visited[end]) {
+            System.out.println("Cannot find a connection between " + start + " and " + end);
+            return;
+        }
+        
+        // Reconstruct the path from start to end
+        ArrayList<Integer> path = new ArrayList<>();
+        int current = end;
+        while (current != -1) {
+            path.add(current);
+            current = previous[current];
+        }
+        
+        // Print the connection path
+        System.out.println("There is a connection from " + start + " to " + end + "!");
+        
+        // Print the connection path line by line
+        for (int i = path.size() - 1; i > 0; i--) {
+            int node = path.get(i);
+            int next = path.get(i - 1);
+            System.out.println(node + " is friends with " + next);
         }
     }
-    }
-
 }
